@@ -18,7 +18,8 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+        currentSpeed = walkSpeed;
+        rb.constraints = RigidbodyConstraints.FreezeRotation;
     }
 
     void FixedUpdate()
