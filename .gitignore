@@ -29,6 +29,12 @@ ExportedObj/
 *.svd
 *.pdb
 
+# Generated Temp Files
+*.dwlt
+
+# UserSettings Files
+UserSettings/
+
 # Builds
 *.apk
 *.unitypackage
