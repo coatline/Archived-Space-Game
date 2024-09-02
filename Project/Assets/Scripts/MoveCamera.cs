@@ -17,7 +17,6 @@ public class MoveCamera : MonoBehaviour
     /// <param name="inputValues">Input.GetAxisRaw("Mouse X"), ...</param>
     public void RotateCamera(Vector2 inputValues)
     {
-
         inputValues = Vector2.Scale(inputValues, new Vector2(smoothing * lookSensitivity, smoothing * lookSensitivity));
 
         smoothedVelocity.x = Mathf.Lerp(smoothedVelocity.x, inputValues.x, 1 / smoothing);
