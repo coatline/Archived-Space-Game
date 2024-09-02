@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MoveCamera : MonoBehaviour
+public class FPCamera : MonoBehaviour
 {
+    [SerializeField] float cameraPitchLimit = 80;
     [SerializeField] float lookSensitivity = 1;
     [SerializeField] float smoothing = 1;
     [SerializeField] float speed = 4;
@@ -23,6 +24,9 @@ public class MoveCamera : MonoBehaviour
         smoothedVelocity.y = Mathf.Lerp(smoothedVelocity.y, inputValues.y, 1 / smoothing);
 
         currentLookingPosition += smoothedVelocity;
+
+        // Clamp the vertical rotation (pitch)
+        currentLookingPosition.y = Mathf.Clamp(currentLookingPosition.y, -cameraPitchLimit, cameraPitchLimit);
 
         cam.transform.localRotation = Quaternion.AngleAxis(-currentLookingPosition.y, Vector3.right);
         transform.localRotation = Quaternion.AngleAxis(currentLookingPosition.x, transform.up);

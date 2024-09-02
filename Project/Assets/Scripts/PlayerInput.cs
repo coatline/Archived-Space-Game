@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class PlayerInput : MonoBehaviour
 {
     [SerializeField] PlayerMovement playerMovement;
-    [SerializeField] MoveCamera cameraMovement;
+    [SerializeField] FPCamera fpCamera;
 
 
     void Start()
@@ -16,18 +16,30 @@ public class PlayerInput : MonoBehaviour
 
     void Update()
     {
+        if (Cursor.lockState != CursorLockMode.Locked)
+        {
+            if (Input.GetMouseButtonDown(0))
+                Cursor.lockState = CursorLockMode.Locked;
+            else
+            {
+                playerMovement.SetDirection(Vector2.zero);
+                return;
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape))
+            Cursor.lockState = CursorLockMode.None;
+
         Jump();
         LateralMovement();
         Mouse();
         Flying();
-        Other();
         Debug();
     }
 
     void Mouse()
     {
         Vector2 inputValues = new Vector3(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
-        cameraMovement.RotateCamera(inputValues);
+        fpCamera.RotateCamera(inputValues);
     }
 
     void Jump()
@@ -51,17 +63,6 @@ public class PlayerInput : MonoBehaviour
             playerMovement.TryFly(1);
         if (Input.GetKey(KeyCode.LeftShift))
             playerMovement.TryFly(-1);
-    }
-
-    void Other()
-    {
-        if (Cursor.lockState == CursorLockMode.Locked)
-        {
-            if (Input.GetKeyDown(KeyCode.Escape))
-                Cursor.lockState = CursorLockMode.None;
-        }
-        else if (Input.GetMouseButtonDown(0))
-            Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Debug()
