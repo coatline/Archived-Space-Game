@@ -14,11 +14,11 @@ public class PlayerInput : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
     }
 
-
     void Update()
     {
         Jump();
         LateralMovement();
+        Mouse();
         Flying();
         Other();
         Debug();
