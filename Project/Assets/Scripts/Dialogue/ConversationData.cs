@@ -6,4 +6,11 @@ using UnityEngine;
 public class ConversationData
 {
     public DialogueData[] dialogues;
+    public string conversationName;
+}
+
+[System.Serializable]
+public class Conversations
+{
+    public ConversationData[] conversations;
 }
