@@ -5,9 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class PlayerInput : MonoBehaviour
 {
+    [SerializeField] Interactor conversationStarter;
     [SerializeField] PlayerMovement playerMovement;
     [SerializeField] FPCamera fpCamera;
-
 
     void Start()
     {
@@ -32,8 +32,17 @@ public class PlayerInput : MonoBehaviour
         Jump();
         LateralMovement();
         Mouse();
+        Keys();
         Flying();
         Debug();
+    }
+
+    void Keys()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            conversationStarter.TryInteract();
+        }
     }
 
     void Mouse()
