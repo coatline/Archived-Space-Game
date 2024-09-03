@@ -412,7 +412,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 386d3f9fdb8d23d45ba69894f011e671, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -497,6 +497,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f96e4b1502e3c043ac18ecd485aae76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraPitchLimit: 80
   lookSensitivity: 1
   smoothing: 3
   speed: 4
@@ -514,7 +515,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerMovement: {fileID: 942558897}
-  cameraMovement: {fileID: 942558895}
+  fpCamera: {fileID: 942558895}
 --- !u!114 &942558897
 MonoBehaviour:
   m_ObjectHideFlags: 0
