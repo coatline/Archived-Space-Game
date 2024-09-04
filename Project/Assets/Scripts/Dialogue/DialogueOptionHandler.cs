@@ -43,7 +43,7 @@ public class DialogueOptionHandler : Singleton<DialogueOptionHandler>
 
             buttonTexts[i].text = $"{i + 1}. {option.option}";
 
-            if (option.effect != "")
+            if (option.effect != "" && option.effect != null)
                 buttonTexts[i].text += $" </color=cyan>[{option.effect}]</color>";
 
             button.onClick.RemoveAllListeners();

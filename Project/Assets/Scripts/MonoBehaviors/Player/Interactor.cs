@@ -53,16 +53,23 @@ public class Interactor : MonoBehaviour
 
     public void TryInteract()
     {
+        //print(currentInteraction);
         if (currentInteraction != null)
         {
             currentInteraction.Interact();
             interactables.Remove(currentInteraction);
-            interactables.Add(currentInteraction);
+            // Add to bottom of queue
+            //interactables.Add(currentInteraction);
 
             if (interactables.Count > 0)
                 SetCurrentInteraction(interactables[0]);
             else
                 SetCurrentInteraction(null);
         }
+        //// Remove null ones
+        //else
+        //    for (int i = interactables.Count - 1; i >= 0; i--)
+        //        if (interactables[i] == null)
+        //            interactables.RemoveAt(i);
     }
 }

@@ -14,7 +14,7 @@ public class FPCamera : MonoBehaviour
     Vector2 smoothedVelocity;
 
 
-    /// <param name="inputValues">Input.GetAxisRaw("Mouse X"), ...</param>
+    /// <param name="inputValues">new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"))</param>
     public void RotateCamera(Vector2 inputValues)
     {
         inputValues = Vector2.Scale(inputValues, new Vector2(smoothing * lookSensitivity, smoothing * lookSensitivity));
