@@ -29,11 +29,8 @@ ExportedObj/
 *.svd
 *.pdb
 
-# Generated Temp Files
-*.dwlt
-
-# UserSettings Files
-UserSettings/
+# Ignore all files in /UserSettings except important ones
+*/UserSettings/
 
 # Builds
 *.apk
@@ -62,4 +59,3 @@ screenshots/**
 *.blend1*
 
 # (this ignores the incremental compiler Logs)
-
