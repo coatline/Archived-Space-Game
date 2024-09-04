@@ -5,58 +5,127 @@ using UnityEngine;
 
 public class DialogueDisplayer : Singleton<DialogueDisplayer>
 {
+    //public event System.Action StartedTalking;
+    //public event System.Action StoppedTalking;
+
+    [SerializeField] DialogueOptionHandler dialogueOptionHandler;
     [SerializeField] DialogueParser dialogueParser;
 
     [SerializeField] GameObject dialogueVisuals;
     [SerializeField] TMP_Text conversationNameText;
-    [SerializeField] TMP_Text speakerDialogueText;
+    [SerializeField] TMP_Text quoteText;
     [SerializeField] TMP_Text speakerNameText;
 
     public bool Talking { get; private set; }
 
+    public ConversationHaver TalkingTo { get; private set; }
     ConversationData conversationData;
-    DialogueTurn dialogueTurn;
+    DialogueTurn currentTurn;
     int currentQuoteIndex;
     int dialogueTurnIndex;
 
-    public void StartConversation(string conversationName)
+    public void StartConversation(ConversationData conversationData, ConversationHaver talkingTo)
     {
-        conversationData = dialogueParser.GetConversation(conversationName);
+        Talking = true;
+        this.TalkingTo = talkingTo;
+        this.conversationData = conversationData;
+        //dialogueParser.GetConversation(conversationData);
 
-        if (conversationData == null)
+        if (this.conversationData == null)
         {
             EndConversation();
             return;
         }
 
-        conversationNameText.text = conversationData.conversationName;
+        conversationNameText.text = this.conversationData.conversationName;
 
-        AdvanceDialogue();
+        currentTurn = this.conversationData.dialogueTurns[dialogueTurnIndex];
+        Display();
 
         dialogueVisuals.SetActive(true);
     }
 
     public void AdvanceDialogue()
     {
-        if (dialogueTurnIndex == conversationData.dialogueTurns.Length)
-        {
-            EndConversation();
-            return;
-        }
-        else
-            DisplayDialogueTurn(conversationData.dialogueTurns[dialogueTurnIndex++]);
+        if (dialogueOptionHandler.Choosing) return;
+
+        AdvanceQuote();
+
+        // If we didn't just end the conversation, display it.
+        if (Talking && dialogueOptionHandler.Choosing == false)
+            Display();
     }
 
-    void DisplayDialogueTurn(DialogueTurn dialogueData)
+    void AdvanceTurn()
     {
-        speakerNameText.text = dialogueData.speakerName;
+        dialogueTurnIndex++;
 
-        string quote = dialogueData.quotes[currentQuoteIndex++];
-        speakerDialogueText.text = quote;
+        // Simply advance to the next dialogue turn
+        if (currentTurn.autoAdvance)
+        {
+            if (dialogueTurnIndex >= conversationData.dialogueTurns.Length)
+                EndConversation();
+            else
+                currentTurn = conversationData.dialogueTurns[dialogueTurnIndex];
+        }
+        // Try to choose options
+        else
+        {
+            if (currentTurn.options.Length > 0)
+                StartChoosing();
+            else
+                EndConversation();
+        }
+    }
+
+    void AdvanceQuote()
+    {
+        currentQuoteIndex++;
+
+        // We are done with this quote
+        if (currentQuoteIndex >= currentTurn.quotes.Length)
+        {
+            currentQuoteIndex = 0;
+            AdvanceTurn();
+        }
+    }
+
+    void StartChoosing()
+    {
+        quoteText.text = "";
+        dialogueOptionHandler.StartChoosing(currentTurn.options);
+    }
+
+    public void ChoseOption(DialogueOption option)
+    {
+        dialogueTurnIndex = option.toDialogueId;
+        currentTurn = conversationData.dialogueTurns[dialogueTurnIndex];
+        Display();
+    }
+
+    void Display()
+    {
+        speakerNameText.text = currentTurn.speakerName;
+
+        string quote = currentTurn.quotes[currentQuoteIndex].quote;
+        quoteText.text = quote;
     }
 
     void EndConversation()
     {
+        dialogueTurnIndex = 0;
+        currentQuoteIndex = 0;
 
+        Talking = false;
+        dialogueVisuals.SetActive(false);
+
+        string nextConversation = conversationData.nextConversation;
+
+        if (nextConversation != "" && nextConversation != string.Empty && nextConversation != null)
+            TalkingTo.SetConversationData(dialogueParser.GetConversation(nextConversation));
+
+        TalkingTo = null;
+        currentTurn = null;
+        conversationData = null;
     }
 }

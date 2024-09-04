@@ -2,87 +2,122 @@
   "conversations": [
     {
       "conversationName": "Introduction",
+      "oneShot": false,
       "dialogueTurns": [
         {
-          "id": 1,
-          "emotion": 0,
-          "speakerName": "Narrator",
+          "id": 0,
+          "speakerName": "Fred",
           "quotes": [
-            "Welcome to the adventure!",
-            "Are you ready to begin?"
+            {
+              "emotion": 0,
+              "quote": "Welcome to the adventure!"
+            },
+            {
+              "emotion": 0,
+              "quote": "Are you ready to begin?"
+            }
           ],
           "options": [
             {
-              "toDialogueId": 2,
+              "toDialogueId": 1,
               "option": "Yes, let's start!",
-              "effect": "gain 3 experience"
+              "effect": "Teleport(3, 1, 1)"
             },
             {
-              "toDialogueId": 3,
+              "toDialogueId": 2,
               "option": "Not yet.",
-              "effect": ""
+              "effect": "Kill()"
             }
           ]
         },
         {
-          "id": 2,
-          "emotion": 1,
-          "speakerName": "Guide",
+          "id": 1,
+          "speakerName": "Fred",
           "quotes": [
-            "Great! Follow me, and we'll get started."
+            {
+              "emotion": 1,
+              "quote": "Great! Follow me, and we'll get started."
+            }
           ],
           "options": []
         },
         {
-          "id": 3,
-          "emotion": 2,
-          "speakerName": "Narrator",
+          "id": 2,
+          "speakerName": "Fred",
           "quotes": [
-            "Take your time. We'll be here when you're ready."
+            {
+              "emotion": 2,
+              "quote": "Take your time, take your time."
+            },
+            {
+              "emotion": 2,
+              "quote": "What do you think about that, Johnny?"
+            }
+          ],
+          "options": [],
+          "autoAdvance": true
+        },
+        {
+          "id": 3,
+          "speakerName": "Johnny",
+          "quotes": [
+            {
+              "emotion": 2,
+              "quote": "I don't flipping care, dad."
+            }
           ],
           "options": []
         }
       ]
     },
     {
-      "conversationName": "First Encounter",
+      "conversationName": "Dangerous Man",
+      "oneShot": false,
       "dialogueTurns": [
         {
-          "id": 4,
-          "emotion": 3,
+          "id": 0,
           "speakerName": "Stranger",
           "quotes": [
-            "Who are you?",
-            "What brings you here?"
+            {
+              "emotion": 3,
+              "quote": "Hey."
+            },
+            {
+              "emotion": 3,
+              "quote": "What's up?"
+            }
           ],
           "options": [
             {
-              "toDialogueId": 5,
-              "option": "I'm just passing by.",
-              "effect": "gain 1 experience"
+              "toDialogueId": 1,
+              "option": "I'm a neat man.",
+              "effect": "Move(0.5, 0, 0)"
             },
             {
-              "toDialogueId": 6,
-              "option": "I'm looking for something.",
-              "effect": "gain 2 experience"
+              "toDialogueId": 2,
+              "option": "You should kill that guy over there."
             }
           ]
         },
         {
-          "id": 5,
-          "emotion": 4,
+          "id": 1,
           "speakerName": "Stranger",
           "quotes": [
-            "Be careful out there."
+            {
+              "emotion": 4,
+              "quote": "You're about to be a dead neat man."
+            }
           ],
           "options": []
         },
         {
-          "id": 6,
-          "emotion": 5,
+          "id": 2,
           "speakerName": "Stranger",
           "quotes": [
-            "I see. Good luck with your search."
+            {
+              "emotion": 5,
+              "quote": "I will later."
+            }
           ],
           "options": []
         }

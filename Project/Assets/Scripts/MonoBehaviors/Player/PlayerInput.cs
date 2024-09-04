@@ -29,11 +29,17 @@ public class PlayerInput : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Escape))
             Cursor.lockState = CursorLockMode.None;
 
-        Jump();
-        LateralMovement();
-        Mouse();
+        if (DialogueDisplayer.I.Talking == false)
+        {
+            Flying();
+            Jump();
+            LateralMovement();
+            Mouse();
+        }
+        else
+            playerMovement.SetDirection(Vector3.zero);
+
         Keys();
-        Flying();
         Debug();
     }
 
@@ -41,7 +47,24 @@ public class PlayerInput : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            conversationStarter.TryInteract();
+            if (DialogueDisplayer.I.Talking == false)
+                conversationStarter.TryInteract();
+            else
+                DialogueDisplayer.I.AdvanceDialogue();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (DialogueDisplayer.I.Talking)
+                DialogueDisplayer.I.AdvanceDialogue();
+        }
+
+        if (DialogueOptionHandler.I.Choosing)
+        {
+            int number = Extensions.GetNumberKeyDown(1, 9);
+
+            if (number > -1)
+                DialogueOptionHandler.I.ChooseOption(number);
         }
     }
 
