@@ -19,17 +19,24 @@ public class DialogueDisplayer : Singleton<DialogueDisplayer>
     public ConversationHaver TalkingTo { get; private set; }
     public bool Talking { get; private set; }
 
+    Dictionary<int, DialogueTurn> idToDialogue;
     ConversationData conversationData;
     DialogueTurn currentTurn;
     int currentQuoteIndex;
-    int dialogueTurnIndex;
+    int currentDialogueID;
 
     public void StartConversation(ConversationData conversationData, ConversationHaver talkingTo)
     {
         Talking = true;
         this.TalkingTo = talkingTo;
         this.conversationData = conversationData;
-        //dialogueParser.GetConversation(conversationData);
+
+        idToDialogue.Clear();
+
+        for (int i = 0; i < conversationData.dialogueTurns.Length; i++)
+        {
+            idToDialogue.Add(conversationData.dialogueTurns[i].id, conversationData.dialogueTurns[i]);
+        }
 
         if (this.conversationData == null)
         {
@@ -39,7 +46,7 @@ public class DialogueDisplayer : Singleton<DialogueDisplayer>
 
         conversationNameText.text = this.conversationData.conversationName;
 
-        currentTurn = this.conversationData.dialogueTurns[dialogueTurnIndex];
+        currentTurn = idToDialogue[currentDialogueID];
         Display();
 
         dialogueVisuals.SetActive(true);
@@ -58,15 +65,11 @@ public class DialogueDisplayer : Singleton<DialogueDisplayer>
 
     void AdvanceTurn()
     {
-        dialogueTurnIndex++;
-
         // Simply advance to the next dialogue turn
-        if (currentTurn.autoAdvance)
+        if (currentTurn.autoAdvanceToID != 0)
         {
-            if (dialogueTurnIndex >= conversationData.dialogueTurns.Length)
-                EndConversation();
-            else
-                currentTurn = conversationData.dialogueTurns[dialogueTurnIndex];
+            currentDialogueID = currentTurn.autoAdvanceToID;
+            currentTurn = idToDialogue[currentDialogueID];
         }
         // Try to choose options
         else
@@ -98,8 +101,14 @@ public class DialogueDisplayer : Singleton<DialogueDisplayer>
 
     public void ChoseOption(DialogueOption option)
     {
-        dialogueTurnIndex = option.toDialogueId;
-        currentTurn = conversationData.dialogueTurns[dialogueTurnIndex];
+        if (option.toDialogueId == -1)
+        {
+            EndConversation();
+            return;
+        }
+
+        currentDialogueID = option.toDialogueId;
+        currentTurn = idToDialogue[currentDialogueID];
         Display();
     }
 
@@ -113,7 +122,7 @@ public class DialogueDisplayer : Singleton<DialogueDisplayer>
 
     void EndConversation()
     {
-        dialogueTurnIndex = 0;
+        currentDialogueID = 0;
         currentQuoteIndex = 0;
 
         Talking = false;

@@ -17,11 +17,11 @@ public static class DialogueCommandExecuter
     {
         // Split actions by commas and remove extra spaces
         string[] actionStrings = actions.Split(new[] { "), " }, System.StringSplitOptions.RemoveEmptyEntries);
-
+        
         foreach (string actionString in actionStrings)
         {
             //Debug.Log(actionString);
-
+            
             // Remove any leading/trailing spaces and closing parenthesis
             string trimmedActionString = actionString.Trim().TrimEnd(')');
 

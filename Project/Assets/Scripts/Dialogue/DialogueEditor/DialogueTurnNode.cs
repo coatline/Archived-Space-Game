@@ -4,29 +4,33 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DialogueTurnNode : MonoBehaviour
+namespace DialogeEditor
 {
-    [SerializeField] TMP_Text idText;
-    [SerializeField] TMP_Text speakerText;
-    [SerializeField] Image optionPrefab;
-    [SerializeField] QuoteNode quoteNodePrefab;
-    [SerializeField] VerticalLayoutGroup quotesHolder;
-
-    public void Setup(DialogueTurn turn)
+    public class DialogueTurnNode : MonoBehaviour
     {
-        idText.text = turn.id.ToString();
-        speakerText.text = turn.speakerName;
+        [SerializeField] TMP_Text speakerText;
+        [SerializeField] QuoteNode quoteNodePrefab;
+        [SerializeField] OptionNode optionNodePrefab;
+        [SerializeField] VerticalLayoutGroup quotesHolder;
+        [SerializeField] RectTransform rectTransform;
 
-        for (int k = 0; k < turn.quotes.Length; k++)
-        {
-            QuoteData quoteData = turn.quotes[k];
-            QuoteNode node = Instantiate(quoteNodePrefab, quotesHolder.transform);
-            node.Setup(quoteData);
-        }
+        public ConversationEditor Editor { get; private set; }
 
-        for (int i = 1; i < turn.options.Length; i++)
+        public void Setup(DialogueTurn turn, ConversationEditor editor)
         {
-            Instantiate(optionPrefab, transform);
+            this.Editor = editor;
+
+            //idText.text = turn.id.ToString();
+            speakerText.text = $"{turn.speakerName} {turn.id}";
+
+            rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, rectTransform.sizeDelta.y + (turn.quotes.Length * quoteNodePrefab.GetComponent<RectTransform>().sizeDelta.y));
+
+            for (int k = 0; k < turn.quotes.Length; k++)
+            {
+                QuoteData quoteData = turn.quotes[k];
+                QuoteNode node = Instantiate(quoteNodePrefab, quotesHolder.transform);
+                node.Setup(quoteData);
+            }
         }
     }
 }

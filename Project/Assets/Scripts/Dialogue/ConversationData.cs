@@ -18,12 +18,14 @@ public class ConversationData
 [System.Serializable]
 public class DialogueTurn
 {
+    // starts at 1
     public int id;
     public string speakerName;
     public QuoteData[] quotes;
     public DialogueOption[] options;
-    // Whether or not to automatically advance to the next dialogue turn
-    public bool autoAdvance;
+
+    // 0 - do not automatically advance
+    public int autoAdvanceToID;
 }
 
 
@@ -41,6 +43,7 @@ public class QuoteData
 [System.Serializable]
 public class DialogueOption
 {
+    // -1 means end the dialogue
     public int toDialogueId;
     public string option;
 

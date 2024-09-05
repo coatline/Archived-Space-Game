@@ -5,7 +5,7 @@
       "oneShot": false,
       "dialogueTurns": [
         {
-          "id": 0,
+          "id": 1,
           "speakerName": "Fred",
           "quotes": [
             {
@@ -19,19 +19,19 @@
           ],
           "options": [
             {
-              "toDialogueId": 1,
+              "toDialogueId": 2,
               "option": "Yes, let's start!",
               "effect": "Teleport(3, 1, 1)"
             },
             {
-              "toDialogueId": 2,
+              "toDialogueId": 3,
               "option": "Not yet.",
               "effect": "Kill()"
             }
           ]
         },
         {
-          "id": 1,
+          "id": 2,
           "speakerName": "Fred",
           "quotes": [
             {
@@ -42,7 +42,7 @@
           "options": []
         },
         {
-          "id": 2,
+          "id": 3,
           "speakerName": "Fred",
           "quotes": [
             {
@@ -55,10 +55,10 @@
             }
           ],
           "options": [],
-          "autoAdvance": true
+          "autoAdvanceToID": 4
         },
         {
-          "id": 3,
+          "id": 4,
           "speakerName": "Johnny",
           "quotes": [
             {
@@ -75,7 +75,7 @@
       "oneShot": false,
       "dialogueTurns": [
         {
-          "id": 0,
+          "id": 1,
           "speakerName": "Stranger",
           "quotes": [
             {
@@ -89,18 +89,18 @@
           ],
           "options": [
             {
-              "toDialogueId": 1,
+              "toDialogueId": 2,
               "option": "I'm a neat man.",
               "effect": "Move(0.5, 0, 0)"
             },
             {
-              "toDialogueId": 2,
+              "toDialogueId": 3,
               "option": "You should kill that guy over there."
             }
           ]
         },
         {
-          "id": 1,
+          "id": 2,
           "speakerName": "Stranger",
           "quotes": [
             {
@@ -111,7 +111,7 @@
           "options": []
         },
         {
-          "id": 2,
+          "id": 3,
           "speakerName": "Stranger",
           "quotes": [
             {
