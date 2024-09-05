@@ -20,7 +20,7 @@ public static class DialogueCommandExecuter
 
         foreach (string actionString in actionStrings)
         {
-            Debug.Log(actionString);
+            //Debug.Log(actionString);
 
             // Remove any leading/trailing spaces and closing parenthesis
             string trimmedActionString = actionString.Trim().TrimEnd(')');
@@ -51,12 +51,12 @@ public static class DialogueCommandExecuter
                     string trimmedParam = param.Trim();
                     if (float.TryParse(trimmedParam, out float intValue))
                     {
-                        Debug.Log(intValue);
+                        //Debug.Log(intValue);
                         parameters.Add(intValue);
                     }
                     else
                     {
-                        Debug.Log("triummed" + trimmedParam);
+                        //Debug.Log("triummed" + trimmedParam);
                         parameters.Add(trimmedParam);
                     }
                 }
