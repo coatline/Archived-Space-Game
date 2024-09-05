@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,6 +18,7 @@ public class DialogueEditor : MonoBehaviour
             Button choice = Instantiate(conversationChoicePrefab, choiceHolder.transform);
             ConversationData conversationData = DialogueParser.I.Conversations.conversations[i];
             choice.onClick.AddListener(() => { ChooseConversation(conversationData); });
+            choice.GetComponentInChildren<TMP_Text>().text = conversationData.conversationName;
         }
 
     }

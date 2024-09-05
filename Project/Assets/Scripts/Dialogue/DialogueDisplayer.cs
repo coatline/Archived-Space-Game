@@ -16,9 +16,9 @@ public class DialogueDisplayer : Singleton<DialogueDisplayer>
     [SerializeField] TMP_Text quoteText;
     [SerializeField] TMP_Text speakerNameText;
 
+    public ConversationHaver TalkingTo { get; private set; }
     public bool Talking { get; private set; }
 
-    public ConversationHaver TalkingTo { get; private set; }
     ConversationData conversationData;
     DialogueTurn currentTurn;
     int currentQuoteIndex;
