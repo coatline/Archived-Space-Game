@@ -7,7 +7,7 @@ public class DialogueParser : Singleton<DialogueParser>
     [SerializeField] TextAsset dialogueJson;
 
     Dictionary<string, ConversationData> getConversation;
-    Conversations conversations;
+    public Conversations Conversations { get; private set; }
 
     protected override void Awake()
     {
@@ -16,11 +16,11 @@ public class DialogueParser : Singleton<DialogueParser>
         getConversation = new Dictionary<string, ConversationData>();
 
         string jsonString = dialogueJson.text;
-        conversations = JsonUtility.FromJson<Conversations>(jsonString);
+        Conversations = JsonUtility.FromJson<Conversations>(jsonString);
 
-        for (int i = 0; i < conversations.conversations.Length; i++)
+        for (int i = 0; i < Conversations.conversations.Length; i++)
         {
-            ConversationData conversationData = conversations.conversations[i];
+            ConversationData conversationData = Conversations.conversations[i];
             string conversationName = conversationData.conversationName;
             getConversation.Add(conversationName, conversationData);
         }

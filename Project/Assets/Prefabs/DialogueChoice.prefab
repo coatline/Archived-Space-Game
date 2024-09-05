@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 2551419108494330574}
   - component: {fileID: 8348974022331329737}
   m_Layer: 5
-  m_Name: Choice
+  m_Name: DialogueChoice
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
