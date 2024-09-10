@@ -2550,7 +2550,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2955306659462957714, guid: 57415d776d01f8b4fa82836ba38e7a48, type: 3}
       propertyPath: m_Name
-      value: Door (1)
+      value: Automatic Door
       objectReference: {fileID: 0}
     - target: {fileID: 3136096202381076104, guid: 57415d776d01f8b4fa82836ba38e7a48, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2785,7 +2785,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2955306659462957714, guid: 57415d776d01f8b4fa82836ba38e7a48, type: 3}
       propertyPath: m_Name
-      value: Door
+      value: Manual Door
       objectReference: {fileID: 0}
     - target: {fileID: 3136096202381076104, guid: 57415d776d01f8b4fa82836ba38e7a48, type: 3}
       propertyPath: m_LocalPosition.x
