@@ -15,15 +15,19 @@ public class DialogueDisplayer : Singleton<DialogueDisplayer>
     [SerializeField] TMP_Text conversationNameText;
     [SerializeField] TMP_Text quoteText;
     [SerializeField] TMP_Text speakerNameText;
+    [SerializeField] int framesBetweenTyping;
 
     public ConversationHaver TalkingTo { get; private set; }
     public bool Talking { get; private set; }
 
+    string currentQuote;
+    bool isTyping;
+
     Dictionary<int, DialogueTurn> idToDialogue;
     ConversationData conversationData;
     DialogueTurn currentTurn;
+    int currentDialogueID = 1;
     int currentQuoteIndex;
-    int currentDialogueID;
 
     public void StartConversation(ConversationData conversationData, ConversationHaver talkingTo)
     {
@@ -31,7 +35,8 @@ public class DialogueDisplayer : Singleton<DialogueDisplayer>
         this.TalkingTo = talkingTo;
         this.conversationData = conversationData;
 
-        idToDialogue.Clear();
+        currentDialogueID = 1;
+        idToDialogue = new Dictionary<int, DialogueTurn>();
 
         for (int i = 0; i < conversationData.dialogueTurns.Length; i++)
         {
@@ -54,6 +59,14 @@ public class DialogueDisplayer : Singleton<DialogueDisplayer>
 
     public void AdvanceDialogue()
     {
+        if (isTyping)
+        {
+            StopAllCoroutines();
+            quoteText.text = currentQuote;
+            isTyping = false;
+            return;
+        }
+
         if (dialogueOptionHandler.Choosing) return;
 
         AdvanceQuote();
@@ -116,13 +129,31 @@ public class DialogueDisplayer : Singleton<DialogueDisplayer>
     {
         speakerNameText.text = currentTurn.speakerName;
 
-        string quote = currentTurn.quotes[currentQuoteIndex].quote;
-        quoteText.text = quote;
+        currentQuote = currentTurn.quotes[currentQuoteIndex].quote;
+
+        StopAllCoroutines();
+        StartCoroutine(TypeQuote());
+    }
+
+
+    IEnumerator TypeQuote()
+    {
+        isTyping = true;
+        quoteText.text = "";
+        foreach (char letter in currentQuote.ToCharArray())
+        {
+            quoteText.text += letter;
+
+            for (int i = 0; i < framesBetweenTyping; i++)
+                yield return null;
+        }
+
+        isTyping = false;
     }
 
     void EndConversation()
     {
-        currentDialogueID = 0;
+        currentDialogueID = 1;
         currentQuoteIndex = 0;
 
         Talking = false;

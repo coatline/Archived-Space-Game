@@ -952,6 +952,7 @@ MonoBehaviour:
   conversationNameText: {fileID: 1384412764}
   quoteText: {fileID: 1195330279}
   speakerNameText: {fileID: 190251731}
+  framesBetweenTyping: 4
 --- !u!114 &394117998
 MonoBehaviour:
   m_ObjectHideFlags: 0
