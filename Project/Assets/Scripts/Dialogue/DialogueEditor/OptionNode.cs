@@ -12,16 +12,16 @@ namespace DialogeEditor
         [SerializeField] TMP_InputField effect;
         [SerializeField] TMP_Text optionIndexText;
 
-        DialogueTurnNode connectedTo;
-        DialogueTurnNode turnNode;
+        public DialogueTurnNode ConnectedTo { get; private set; }
+        public DialogueTurnNode TurnNode { get; private set; }
         DialogueOption data;
 
         public void Setup(DialogueOption data, int optionIndex, DialogueTurnNode turnNode)
         {
             optionIndexText.text = $"Option {optionIndex + 1}";
             this.data = data;
-            this.turnNode = turnNode;
-            this.connectedTo = turnNode.Editor.GetTurnNode(data.toDialogueId);
+            this.TurnNode = turnNode;
+            this.ConnectedTo = turnNode.Editor.GetTurnNode(data.toDialogueId);
 
             quote.text = data.option;
             effect.text = data.effect;
@@ -29,18 +29,28 @@ namespace DialogeEditor
 
         private void Update()
         {
-            if (connectedTo == null)
+            if (ConnectedTo == null)
             {
-                connectedTo = turnNode.Editor.GetTurnNode(data.toDialogueId);
+                ConnectedTo = TurnNode.Editor.GetTurnNode(data.toDialogueId);
                 return;
             }
 
             lineRenderer.SetPositions(new Vector3[3]
             {
-            turnNode.transform.position,
+            TurnNode.transform.position,
             transform.position,
-            connectedTo.transform.position
+            ConnectedTo.transform.position
             });
+        }
+
+        public DialogueOption GetData()
+        {
+            int connectedToID = 0;
+
+            if (ConnectedTo != null)
+                connectedToID = ConnectedTo.ID;
+
+            return new DialogueOption(connectedToID, quote.text, effect.text);
         }
     }
 }

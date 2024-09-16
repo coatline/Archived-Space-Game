@@ -15,9 +15,16 @@ namespace DialogeEditor
         [SerializeField] RectTransform rectTransform;
 
         public ConversationEditor Editor { get; private set; }
+        List<OptionNode> optionNodes;
+        DialogueTurn dialogueTurn;
+
+        public int ID => dialogueTurn.id;
 
         public void Setup(DialogueTurn turn, ConversationEditor editor)
         {
+            optionNodes = new List<OptionNode>();
+
+            this.dialogueTurn = turn;
             this.Editor = editor;
 
             //idText.text = turn.id.ToString();
@@ -31,6 +38,27 @@ namespace DialogeEditor
                 QuoteNode node = Instantiate(quoteNodePrefab, quotesHolder.transform);
                 node.Setup(quoteData);
             }
+        }
+
+        public void CreateOptionNode(DialogueOption option, int optionIndex, Vector2 position)
+        {
+            OptionNode oNode = Instantiate(optionNodePrefab, position, Quaternion.identity, transform);
+            oNode.Setup(option, optionIndex, this);
+            optionNodes.Add(oNode);
+        }
+
+        public DialogueTurn GetData()
+        {
+            QuoteData[] quotes = new QuoteData[quotesHolder.transform.childCount];
+            DialogueOption[] options = new DialogueOption[optionNodes.Count];
+
+            for (int i = 0; i < quotes.Length; i++)
+                quotes[i] = quotesHolder.transform.GetChild(i).GetComponent<QuoteNode>().GetData();
+
+            for (int k = 0; k < optionNodes.Count; k++)
+                options[k] = optionNodes[k].GetData();
+
+            return new DialogueTurn(dialogueTurn.id, dialogueTurn.speakerName, quotes, options, dialogueTurn.autoAdvanceToID);
         }
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class DialogueParser : Singleton<DialogueParser>
@@ -33,5 +34,12 @@ public class DialogueParser : Singleton<DialogueParser>
 
         Debug.LogWarning($"Couldn't get conversation: {conversationName}");
         return null;
+    }
+
+    public void Save()
+    {
+        string json = JsonUtility.ToJson(Conversations);
+        string filePath = Path.Combine(Application.dataPath, "Dialogue.json");
+        File.WriteAllText(filePath, json);
     }
 }

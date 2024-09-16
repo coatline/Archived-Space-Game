@@ -7,8 +7,8 @@ namespace DialogeEditor
 {
     public class QuoteNode : MonoBehaviour
     {
-        [SerializeField] TMP_InputField quote;
         [SerializeField] TMP_Dropdown emotion;
+        [SerializeField] TMP_InputField quote;
         [SerializeField] TMP_InputField effect;
 
         QuoteData data;
@@ -20,5 +20,7 @@ namespace DialogeEditor
             emotion.value = data.emotion;
             effect.text = data.effect;
         }
+
+        public QuoteData GetData() => new QuoteData(emotion.value, quote.text, effect.text);
     }
 }

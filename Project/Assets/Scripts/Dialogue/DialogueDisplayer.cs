@@ -135,7 +135,6 @@ public class DialogueDisplayer : Singleton<DialogueDisplayer>
         StartCoroutine(TypeQuote());
     }
 
-
     IEnumerator TypeQuote()
     {
         isTyping = true;

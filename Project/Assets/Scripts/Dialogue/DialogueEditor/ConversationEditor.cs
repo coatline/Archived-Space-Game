@@ -5,12 +5,12 @@ using UnityEngine.UI;
 
 namespace DialogeEditor
 {
-
     public class ConversationEditor : MonoBehaviour
     {
         [SerializeField] GameObject convChoiceHolder;
         [SerializeField] DialogueTurnNode turnNodePrefab;
         [SerializeField] OptionNode optionNodePrefab;
+        [SerializeField] Animator savedTextAnimator;
         [SerializeField] float scrollSpeed;
         [SerializeField] float moveSpeed;
         [SerializeField] Vector2 spacing;
@@ -19,12 +19,14 @@ namespace DialogeEditor
 
         Dictionary<int, DialogueTurnNode> idToTurnNode;
         Dictionary<int, DialogueTurn> idToTurn;
+        List<DialogueTurnNode> dialogueNodes;
         ConversationData data;
 
         private void Awake()
         {
             idToTurnNode = new Dictionary<int, DialogueTurnNode>();
             idToTurn = new Dictionary<int, DialogueTurn>();
+            dialogueNodes = new List<DialogueTurnNode>();
         }
 
 
@@ -39,8 +41,7 @@ namespace DialogeEditor
             for (int i = 0; i < data.dialogueTurns.Length; i++)
             {
                 DialogueTurn turn = data.dialogueTurns[i];
-                if (i != turn.id)
-                    Debug.LogWarning($"Dialogue Turn of ID {turn.id} does not match with it's position in the array ({i})!");
+
                 idToTurn.Add(turn.id, turn);
             }
 
@@ -60,6 +61,7 @@ namespace DialogeEditor
             DialogueTurn turn = GetTurn(id);
             DialogueTurnNode turnNode = Instantiate(turnNodePrefab, position, Quaternion.identity, transform);
 
+            dialogueNodes.Add(turnNode);
             idToTurnNode.Add(turn.id, turnNode);
 
             turnNode.Setup(turn, this);
@@ -70,10 +72,10 @@ namespace DialogeEditor
 
                 for (int i = 0; i < turn.options.Length; i++)
                 {
-                    Vector2 optionPosition = new Vector2(position.x, position.y + Spacing.y * i);
-                    OptionNode oNode = Instantiate(optionNodePrefab, optionPosition, Quaternion.identity, transform);
                     DialogueOption option = turn.options[i];
-                    oNode.Setup(option, i, turnNode);
+                    Vector2 optionPosition = new Vector2(position.x, position.y + Spacing.y * i);
+
+                    turnNode.CreateOptionNode(option, i, optionPosition);
                     CreateTurn(option.toDialogueId, optionPosition + new Vector2(spacing.x, 0));
                 }
             }
@@ -106,6 +108,29 @@ namespace DialogeEditor
             if (idToTurnNode.ContainsKey(id))
                 return idToTurnNode[id];
             return null;
+        }
+
+        public void Save()
+        {
+            if (data != null)
+            {
+                DialogueParser.I.GetConversation(data.conversationName).dialogueTurns = GetDialogueTurns();
+                DialogueParser.I.Save();
+                savedTextAnimator.Play("Slideup");
+            }
+        }
+
+        public DialogueTurn[] GetDialogueTurns()
+        {
+            DialogueTurn[] turns = new DialogueTurn[dialogueNodes.Count];
+
+            for (int i = 0; i < dialogueNodes.Count; i++)
+            {
+                DialogueTurnNode node = dialogueNodes[i];
+                turns[i] = node.GetData();
+            }
+
+            return turns;
         }
     }
 }
