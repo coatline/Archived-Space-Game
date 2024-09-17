@@ -15,7 +15,7 @@ public class DialogueDisplayer : Singleton<DialogueDisplayer>
     [SerializeField] TMP_Text conversationNameText;
     [SerializeField] TMP_Text quoteText;
     [SerializeField] TMP_Text speakerNameText;
-    [SerializeField] int framesBetweenTyping;
+    [SerializeField] int timeBetweenTyping;
 
     public ConversationHaver TalkingTo { get; private set; }
     public bool Talking { get; private set; }
@@ -143,8 +143,9 @@ public class DialogueDisplayer : Singleton<DialogueDisplayer>
         {
             quoteText.text += letter;
 
-            for (int i = 0; i < framesBetweenTyping; i++)
-                yield return null;
+            yield return new WaitForSeconds(timeBetweenTyping * Time.deltaTime);
+            //for (int i = 0; i < timeBetweenTyping; i++)
+            //    yield return null;
         }
 
         isTyping = false;
