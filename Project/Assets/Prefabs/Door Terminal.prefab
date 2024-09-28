@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4022725572953348454}
   - component: {fileID: 5073764718140436860}
   m_Layer: 0
-  m_Name: DoorTerminal
+  m_Name: Door Terminal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
